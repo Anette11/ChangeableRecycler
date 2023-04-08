@@ -25,7 +25,12 @@ class ItemRecyclerViewAdapter : RecyclerView.Adapter<ItemRecyclerViewAdapter.Ite
         position: Int
     ) {
         val item = asyncListDiffer.currentList[position]
-        holder.binding.textViewNumber.text = "${item.number}"
+        with(holder.binding) {
+            textViewNumber.text = "${item.number}"
+            imageViewDelete.setOnClickListener {
+                onItemClick?.invoke(item)
+            }
+        }
     }
 
     class ItemViewHolder(
@@ -50,4 +55,6 @@ class ItemRecyclerViewAdapter : RecyclerView.Adapter<ItemRecyclerViewAdapter.Ite
     fun submitList(
         listItems: List<Item>
     ) = asyncListDiffer.submitList(listItems)
+
+    var onItemClick: ((Item) -> Unit)? = null
 }

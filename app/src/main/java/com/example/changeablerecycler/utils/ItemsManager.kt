@@ -59,4 +59,13 @@ class ItemsManager {
     fun stopPlay() {
         isToContinue = false
     }
+
+    fun deleteItem(
+        item: Item
+    ) {
+        val listItemsToShowUpdated = LinkedList<Item>()
+        listItemsToShowUpdated.addAll(_listItemsToShow.value)
+        listItemsToShowUpdated.remove(item)
+        _listItemsToShow.value = listItemsToShowUpdated
+    }
 }

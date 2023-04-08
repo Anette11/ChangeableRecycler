@@ -2,6 +2,7 @@ package com.example.changeablerecycler.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.changeablerecycler.data.Item
 import com.example.changeablerecycler.utils.ItemsManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,5 +19,9 @@ class MainViewModel(
 
     fun stopPlay() = viewModelScope.launch(Dispatchers.Default) {
         itemsManager.stopPlay()
+    }
+
+    fun deleteItem(item: Item) = viewModelScope.launch(Dispatchers.Default) {
+        itemsManager.deleteItem(item = item)
     }
 }

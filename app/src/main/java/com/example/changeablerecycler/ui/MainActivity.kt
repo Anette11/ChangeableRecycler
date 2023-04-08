@@ -36,6 +36,9 @@ class MainActivity : AppCompatActivity() {
             recyclerView.setHasFixedSize(true)
             recyclerView.layoutManager = GridLayoutManager(this@MainActivity, spanCount)
             recyclerView.adapter = recyclerViewAdapter
+            recyclerViewAdapter.onItemClick = { item ->
+                viewModel.deleteItem(item = item)
+            }
         }
 
         lifecycleScope.launch {
