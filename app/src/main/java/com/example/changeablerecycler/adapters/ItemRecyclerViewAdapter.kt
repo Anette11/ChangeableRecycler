@@ -1,10 +1,11 @@
-package com.example.changeablerecycler
+package com.example.changeablerecycler.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.changeablerecycler.data.Item
 import com.example.changeablerecycler.databinding.ItemElementBinding
 
 class ItemRecyclerViewAdapter : RecyclerView.Adapter<ItemRecyclerViewAdapter.ItemViewHolder>() {
