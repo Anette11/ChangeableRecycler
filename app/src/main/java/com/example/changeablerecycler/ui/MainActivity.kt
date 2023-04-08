@@ -1,5 +1,6 @@
 package com.example.changeablerecycler.ui
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -23,9 +24,14 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        val spanCount = when (resources.configuration.orientation) {
+            Configuration.ORIENTATION_PORTRAIT -> 2
+            else -> 4
+        }
+
         with(binding) {
             recyclerView.setHasFixedSize(true)
-            recyclerView.layoutManager = GridLayoutManager(this@MainActivity, 2)
+            recyclerView.layoutManager = GridLayoutManager(this@MainActivity, spanCount)
             recyclerView.adapter = recyclerViewAdapter
             recyclerViewAdapter.updateListItems(viewModel.list)
         }
