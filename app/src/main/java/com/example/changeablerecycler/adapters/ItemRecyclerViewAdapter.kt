@@ -10,12 +10,6 @@ import com.example.changeablerecycler.databinding.ItemElementBinding
 
 class ItemRecyclerViewAdapter : RecyclerView.Adapter<ItemRecyclerViewAdapter.ItemViewHolder>() {
 
-    private val listItems = mutableListOf<Item>()
-
-    fun updateListItems(
-        newListItems: List<Item>
-    ) = asyncListDiffer.submitList(newListItems)
-
     override fun getItemCount(): Int = asyncListDiffer.currentList.size
 
     override fun onCreateViewHolder(
@@ -52,4 +46,8 @@ class ItemRecyclerViewAdapter : RecyclerView.Adapter<ItemRecyclerViewAdapter.Ite
     }
 
     private val asyncListDiffer = AsyncListDiffer(this, diffUtilItemCallback)
+
+    fun submitList(
+        listItems: List<Item>
+    ) = asyncListDiffer.submitList(listItems)
 }

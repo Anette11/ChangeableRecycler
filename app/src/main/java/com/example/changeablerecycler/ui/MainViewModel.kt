@@ -1,15 +1,22 @@
 package com.example.changeablerecycler.ui
 
 import androidx.lifecycle.ViewModel
-import com.example.changeablerecycler.data.Item
+import androidx.lifecycle.viewModelScope
+import com.example.changeablerecycler.utils.ItemsManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class MainViewModel : ViewModel() {
+class MainViewModel(
+    private val itemsManager: ItemsManager
+) : ViewModel() {
 
-    val list = mutableListOf<Item>()
+    val listItems = itemsManager.listItemsToShow
 
-    init {
-        (1..15).forEach { number ->
-            list.add(Item(number = number))
-        }
+    fun startPlay() = viewModelScope.launch(Dispatchers.Default) {
+        itemsManager.startPlay()
+    }
+
+    fun stopPlay() = viewModelScope.launch(Dispatchers.Default) {
+        itemsManager.stopPlay()
     }
 }

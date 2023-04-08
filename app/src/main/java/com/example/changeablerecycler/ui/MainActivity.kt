@@ -3,9 +3,12 @@ package com.example.changeablerecycler.ui
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.changeablerecycler.adapters.ItemRecyclerViewAdapter
 import com.example.changeablerecycler.databinding.ActivityMainBinding
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -33,7 +36,22 @@ class MainActivity : AppCompatActivity() {
             recyclerView.setHasFixedSize(true)
             recyclerView.layoutManager = GridLayoutManager(this@MainActivity, spanCount)
             recyclerView.adapter = recyclerViewAdapter
-            recyclerViewAdapter.updateListItems(viewModel.list)
         }
+
+        lifecycleScope.launch {
+            viewModel.listItems.collectLatest { listItems ->
+                recyclerViewAdapter.submitList(listItems)
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.startPlay()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.stopPlay()
     }
 }
