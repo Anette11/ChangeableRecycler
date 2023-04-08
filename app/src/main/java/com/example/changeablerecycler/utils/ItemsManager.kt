@@ -26,13 +26,13 @@ class ItemsManager {
     }
 
     private fun initialFillListItemsToShow() {
-        val listItemsToShowUpdated = LinkedList<Item>()
-        listItemsToShowUpdated.addAll(_listItemsToShow.value)
-        repeat(initialItemsCount) {
-            itemNumber += 1
-            listItemsToShowUpdated.add(Item(number = itemNumber))
+        _listItemsToShow.value = LinkedList<Item>().apply {
+            addAll(_listItemsToShow.value)
+            repeat(initialItemsCount) {
+                itemNumber += 1
+                add(Item(number = itemNumber))
+            }
         }
-        _listItemsToShow.value = listItemsToShowUpdated
     }
 
     suspend fun startPlay() {
@@ -49,10 +49,10 @@ class ItemsManager {
                     Item(number = itemNumber)
                 }
             }
-            val listItemsToShowUpdated = LinkedList<Item>()
-            listItemsToShowUpdated.addAll(_listItemsToShow.value)
-            listItemsToShowUpdated.add(indexRandom, itemToAdd)
-            _listItemsToShow.value = listItemsToShowUpdated
+            _listItemsToShow.value = LinkedList<Item>().apply {
+                addAll(_listItemsToShow.value)
+                add(indexRandom, itemToAdd)
+            }
         }
     }
 
@@ -63,9 +63,9 @@ class ItemsManager {
     fun deleteItem(
         item: Item
     ) {
-        val listItemsToShowUpdated = LinkedList<Item>()
-        listItemsToShowUpdated.addAll(_listItemsToShow.value)
-        listItemsToShowUpdated.remove(item)
-        _listItemsToShow.value = listItemsToShowUpdated
+        _listItemsToShow.value = LinkedList<Item>().apply {
+            addAll(_listItemsToShow.value)
+            remove(item)
+        }
     }
 }
