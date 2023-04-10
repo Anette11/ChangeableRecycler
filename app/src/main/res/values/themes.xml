@@ -13,5 +13,7 @@
         <item name="android:statusBarColor">@color/blue_dark</item>
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@color/blue_dark</item>
+        <item name="android:windowEnableSplitTouch">false</item>
+        <item name="android:splitMotionEvents">false</item>
     </style>
 </resources>
