@@ -39,20 +39,23 @@ class ItemsManager {
         isToContinue = true
         while (isToContinue) {
             delay(delayBetweenItemsCreation)
-            val itemFromDeleted = listItemsDeleted.toList().shuffled().firstOrNull()
+            val itemToAdd = findItemToAdd()
             val indexRandom =
                 if (_listItemsToShow.value.isEmpty()) 0 else Random.nextInt(0.._listItemsToShow.value.size)
-            val itemToAdd = when {
-                itemFromDeleted != null -> itemFromDeleted
-                else -> {
-                    itemNumber += 1
-                    Item(number = itemNumber)
-                }
-            }
             _listItemsToShow.value = LinkedList<Item>().apply {
                 addAll(_listItemsToShow.value)
                 add(indexRandom, itemToAdd)
             }
+        }
+    }
+
+    private fun findItemToAdd(): Item {
+        val itemFromListItemsDeleted = listItemsDeleted.toList().shuffled().firstOrNull()
+        return itemFromListItemsDeleted?.let {
+            itemFromListItemsDeleted
+        } ?: kotlin.run {
+            itemNumber += 1
+            Item(number = itemNumber)
         }
     }
 
