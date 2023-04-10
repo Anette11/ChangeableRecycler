@@ -1,7 +1,10 @@
 package com.example.changeablerecycler.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -30,6 +33,7 @@ class ItemRecyclerViewAdapter : RecyclerView.Adapter<ItemRecyclerViewAdapter.Ite
             imageViewDelete.setOnClickListener {
                 onItemClick?.invoke(item)
             }
+            cardView.setScaleAnimation()
         }
     }
 
@@ -57,4 +61,20 @@ class ItemRecyclerViewAdapter : RecyclerView.Adapter<ItemRecyclerViewAdapter.Ite
     ) = asyncListDiffer.submitList(listItems)
 
     var onItemClick: ((Item) -> Unit)? = null
+
+    private fun View.setScaleAnimation() =
+        this.startAnimation(
+            ScaleAnimation(
+                0.0f,
+                1.0f,
+                0.0f,
+                1.0f,
+                Animation.RELATIVE_TO_SELF,
+                0.5f,
+                Animation.RELATIVE_TO_SELF,
+                0.5f
+            ).apply {
+                duration = 500L
+            }
+        )
 }
