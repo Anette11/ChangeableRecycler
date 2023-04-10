@@ -19,13 +19,16 @@ class ItemsManager {
     private var isToContinue = true
 
     private val initialItemsCount = 15
-    private val delayBetweenItemsCreation = 5000L
+    private val delayDefault = 5000L
+
+    private var timeStart: Long? = null
+    private var timeStop: Long? = null
 
     init {
-        initialFillListItemsToShow()
+        fillListItemsToShowInitially()
     }
 
-    private fun initialFillListItemsToShow() {
+    private fun fillListItemsToShowInitially() {
         _listItemsToShow.value = LinkedList<Item>().apply {
             addAll(_listItemsToShow.value)
             repeat(initialItemsCount) {
@@ -38,7 +41,9 @@ class ItemsManager {
     suspend fun startPlay() {
         isToContinue = true
         while (isToContinue) {
-            delay(delayBetweenItemsCreation)
+            val delay = findDelay()
+            timeStart = Date().time
+            delay(delay)
             val itemToAdd = findItemToAdd()
             val indexRandom =
                 if (_listItemsToShow.value.isEmpty()) 0 else Random.nextInt(0.._listItemsToShow.value.size)
@@ -47,6 +52,14 @@ class ItemsManager {
                 add(indexRandom, itemToAdd)
             }
         }
+    }
+
+    private fun findDelay(): Long {
+        if (timeStart == null) return delayDefault
+        if (timeStop == null) return delayDefault
+        val difference = timeStop!! - timeStart!!
+        val delay = delayDefault - difference
+        return if (delay > delayDefault) delayDefault else delay
     }
 
     private fun findItemToAdd(): Item {
@@ -61,6 +74,7 @@ class ItemsManager {
     }
 
     fun stopPlay() {
+        timeStop = Date().time
         isToContinue = false
     }
 
