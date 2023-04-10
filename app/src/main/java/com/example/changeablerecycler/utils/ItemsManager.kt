@@ -13,7 +13,7 @@ class ItemsManager {
     private val _listItemsToShow = MutableStateFlow(LinkedList<Item>())
     val listItemsToShow: StateFlow<LinkedList<Item>> = _listItemsToShow
 
-    private val listItemsDeleted = LinkedList<Item>()
+    private val listItemsDeleted = mutableListOf<Item>()
 
     private var itemNumber = 0
     private var isToContinue = true
@@ -39,7 +39,7 @@ class ItemsManager {
         isToContinue = true
         while (isToContinue) {
             delay(delayBetweenItemsCreation)
-            val itemFromDeleted = listItemsDeleted.firstOrNull()
+            val itemFromDeleted = listItemsDeleted.toList().shuffled().firstOrNull()
             val indexRandom =
                 if (_listItemsToShow.value.isEmpty()) 0 else Random.nextInt(0.._listItemsToShow.value.size)
             val itemToAdd = when {
@@ -63,6 +63,7 @@ class ItemsManager {
     fun deleteItem(
         item: Item
     ) {
+        listItemsDeleted.add(item)
         _listItemsToShow.value = LinkedList<Item>().apply {
             addAll(_listItemsToShow.value)
             remove(item)
