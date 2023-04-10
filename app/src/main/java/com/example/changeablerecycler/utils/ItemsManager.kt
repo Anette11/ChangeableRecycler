@@ -10,8 +10,8 @@ import kotlin.random.nextInt
 
 class ItemsManager {
 
-    private val _listItemsToShow = MutableStateFlow(LinkedList<Item>())
-    val listItemsToShow: StateFlow<LinkedList<Item>> = _listItemsToShow
+    private val _listItemsToShow = MutableStateFlow(emptyList<Item>())
+    val listItemsToShow: StateFlow<List<Item>> = _listItemsToShow
 
     private val listItemsDeleted = mutableListOf<Item>()
 
@@ -52,6 +52,7 @@ class ItemsManager {
     private fun findItemToAdd(): Item {
         val itemFromListItemsDeleted = listItemsDeleted.toList().shuffled().firstOrNull()
         return itemFromListItemsDeleted?.let {
+            listItemsDeleted.remove(itemFromListItemsDeleted)
             itemFromListItemsDeleted
         } ?: kotlin.run {
             itemNumber += 1
